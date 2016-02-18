@@ -10,11 +10,13 @@ public:
     image(QImage *img);
     int get();
 private:
+    int blockX;
+    int blockY;
     int width;
     int height;
-    vector < vector<int> > colorY;
-    vector < vector<int> > colorU;
-    vector < vector<int> > colorV;
+    vector < vector<int> > colorY;//Y graph
+    vector < vector<int> > colorU;//U graph
+    vector < vector<int> > colorV;//V graph
 };
 
 #endif // IMAGE_H

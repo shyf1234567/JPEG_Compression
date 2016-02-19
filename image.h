@@ -8,15 +8,15 @@ class image
 {
 public:
     image(QImage *img);
-    int get();
+    float get();
 private:
     int blockX;
     int blockY;
     int width;
     int height;
-    vector < vector<int> > colorY;//Y graph
-    vector < vector<int> > colorU;//U graph
-    vector < vector<int> > colorV;//V graph
+    vector < vector<float> > colorY;//Y graph
+    vector < vector<float> > colorU;//U graph
+    vector < vector<float> > colorV;//V graph
 };
 
 #endif // IMAGE_H

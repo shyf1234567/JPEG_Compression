@@ -27,7 +27,7 @@ void MainWindow::on_pushButton_clicked()
 {
     img = new QImage(filePath);
     image *imgInfo = new image(img);
-//    qDebug()<< qRed(img->pixel(0,0))<<qGreen(img->pixel(0,0))<<qBlue(img->pixel(0,0));
-//    qDebug() << imgInfo->get();
+    qDebug()<< qRed(img->pixel(0,0))<<qGreen(img->pixel(0,0))<<qBlue(img->pixel(0,0));
+    qDebug() << imgInfo->get();
 
 }

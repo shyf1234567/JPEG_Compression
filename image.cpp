@@ -6,9 +6,9 @@ image::image(QImage *img)
     height = img->height();
     for (int i = 0; i < width; i++)
     {
-        vector <int> colY;
-        vector <int> colU;
-        vector <int> colV;
+        vector <float> colY;
+        vector <float> colU;
+        vector <float> colV;
         for (int j = 0; j < height; j++)
         {
             QRgb color = img->pixel(i,j);
@@ -38,7 +38,7 @@ image::image(QImage *img)
         colorV.push_back(colV);
     }
 }
-int image::get()
+float image::get()
 {
     return colorY[0][0];
 }

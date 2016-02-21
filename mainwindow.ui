@@ -31,37 +31,30 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>140</y>
+      <y>160</y>
       <width>160</width>
-      <height>202</height>
+      <height>198</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QPushButton" name="D">
+      <widget class="QPushButton" name="Decode">
        <property name="text">
-        <string>Decode (type2)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="Decode1">
-       <property name="text">
-        <string>Decode (type1)</string>
+        <string>Decode</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="Encode2">
        <property name="text">
-        <string>Encode (type2)</string>
+        <string>Encode(C)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="Encode1">
        <property name="text">
-        <string>Encode (type1)</string>
+        <string>Encode(L)</string>
        </property>
       </widget>
      </item>
@@ -83,7 +76,7 @@
    </widget>
    <zorder>label</zorder>
    <zorder>verticalLayoutWidget</zorder>
-   <zorder>D</zorder>
+   <zorder>Decode</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

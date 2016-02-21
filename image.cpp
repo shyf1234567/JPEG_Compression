@@ -138,15 +138,11 @@ void image::Encode(int type)
     Encode_Y = resultY;
     Encode_U = resultU;
     Encode_V = resultV;
-    for (int i = 0; i < block_Y * 8; i++)
-        for (int j = 0; j < block_X * 8; j++)
-            qDebug() << Encode_Y[i][j];
 }
 
 QImage image::Generate()
 {
     QImage pic(block_X * 8, block_Y * 8,QImage::Format_RGB32);
-    qDebug() << "begin";
     pic.fill(QColor(Qt::white).rgb());
     for (int i = 0; i < block_Y * 8; i++)
         for (int j = 0; j < block_X * 8; j++)

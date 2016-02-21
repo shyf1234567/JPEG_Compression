@@ -22,11 +22,13 @@ public:
 private slots:
     void on_Browser_clicked();
 
-    void on_pushButton_clicked();
+    void on_Show_clicked();
 
     void on_Encode1_clicked();
 
-    void on_Show_clicked();
+    void on_Encode2_clicked();
+
+    void on_Decode_clicked();
 
 private:
     Ui::MainWindow *ui;

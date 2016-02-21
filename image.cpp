@@ -4,12 +4,12 @@ image::image(QImage *img)
 {
     width = img->width();
     height = img->height();
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < height; i++)
     {
         vector <float> colY;
         vector <float> colU;
         vector <float> colV;
-        for (int j = 0; j < height; j++)
+        for (int j = 0; j < width; j++)
         {
             QRgb color = img->pixel(i,j);
             int R = qRed(color);
@@ -43,3 +43,50 @@ float image::get()
     return colorY[0][0];
 }
 
+void image::Encode(int type)
+{
+    int block_X = width / 8;
+    int block_Y = height / 8;
+    vector <int> Empty_Int(width * 8);
+    vector <vector<int> > resultY(height * 8, Empty_Int);
+    vector <vector<int> > resultU(height * 8, Empty_Int);
+    vector <vector<int> > resultV(height * 8, Empty_Int);
+
+    vector <float> emptyFloat(8);
+    vector <int> emptyInt(8);
+    vector <vector<float> > blockY(8, emptyFloat);
+    vector <vector<float> > blockU(8, emptyFloat);
+    vector <vector<float> > blockV(8, emptyFloat);
+
+    vector <vector<int> > EncodeblockY(8, emptyInt);
+    vector <vector<int> > EncodeblockU(8, emptyInt);
+    vector <vector<int> > EncodeblockV(8, emptyInt);
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int x = 0; x < 8; x++)
+                for (int y = 0; y < 8; y++)
+                {
+                    blockY[x][y] = colorY[i * 8 + x][j * 8 + y];
+                    blockU[x][y] = colorU[i * 8 + x][j * 8 + y];
+                    blockV[x][y] = colorV[i * 8 + x][j * 8 + y];
+                }
+            EncodeblockY = Quantization(DCT(blockY), type);
+            EncodeblockU = Quantization(DCT(blockU), type);
+            EncodeblockV = Quantization(DCT(blockV), type);
+
+            for (int x = 0; x < 8; x++)
+                for (int y = 0; y < 8; y++)
+                {
+                    resultY[i * 8 + x][j * 8 + y] = EncodeblockY[x][y];
+                    resultU[i * 8 + x][j * 8 + y] = EncodeblockU[x][y];
+                    resultV[i * 8 + x][j * 8 + y] = EncodeblockV[x][y];
+                }
+        }
+    }
+    Encode_Y = resultY;
+    Encode_U = resultU;
+    Encode_V = resultV;
+
+}

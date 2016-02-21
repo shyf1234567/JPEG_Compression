@@ -9,7 +9,7 @@ QString filePath = "";
 vector <float> emptyFloat(8);
 vector <int> emptyInt(8);
 
-vector < vector<float> > Product(vector< vector<float> > M1, vector< vector<float> > M2)
+vector <vector<float> > Product(vector <vector<float> > M1, vector< vector<float> > M2)
 {
     vector < vector<float> > result(8,emptyFloat);
 
@@ -27,7 +27,7 @@ vector < vector<float> > Product(vector< vector<float> > M1, vector< vector<floa
     return result;
 }
 
-vector <vector <int> > DCT(vector< vector<float> > block)
+vector <vector<int> > DCT(vector <vector<float> > block)
 {
     //construct 8*8 DCT matrix
     vector <vector <float> > DCTMatrix(8, emptyFloat);

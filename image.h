@@ -4,6 +4,7 @@
 #include <QRgb>
 #include <QDebug>
 #include <vector>
+#include <QColor>
 #include "global.h"
 using namespace std;
 class image

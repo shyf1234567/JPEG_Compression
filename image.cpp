@@ -105,9 +105,9 @@ void image::Decode(int type)
     for (int i = 0; i < block_Y * 8; i++)
         for (int j = 0; j < block_X * 8; j++)
         {
-            resultR[i][j] = resultY + resultV * 1.13983;
-            resultG[i][j] = resultY - resultU * 0.39465 - resultV * 0.58060;
-            resultB[i][j] = resultY + resultU * 2.03211;
+            resultR[i][j] = resultY[i][j] + resultV[i][j] * 1.13983;
+            resultG[i][j] = resultY[i][j] - resultU[i][j] * 0.39465 - resultV[i][j] * 0.58060;
+            resultB[i][j] = resultY[i][j] + resultU[i][j] * 2.03211;
         }
     Decode_R = resultR;
     Decode_G = resultG;
@@ -161,4 +161,13 @@ void image::Encode(int type)
     for (int i = 0; i < block_Y * 8; i++)
         for (int j = 0; j < block_X * 8; j++)
             qDebug() << Encode_Y[i][j];
+}
+
+void image::Generate()
+{
+    QImage pic(block_X * 8, block_Y * 8,QImage::Format_RGB888);
+    pic.fill(QColor(Qt::white).rgb());
+    for (int i = 0; i < block_Y * 8; i++)
+        for (int j = 0; j < block_X * 8; j++)
+          pic.setPixel(i,j,qRgb(Decode_R[i][j], Decode_G[i][j], Decode_B[i][j]));
 }

@@ -6,47 +6,91 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>531</width>
+    <height>416</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="Browser">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>200</y>
-      <width>113</width>
-      <height>32</height>
+      <x>10</x>
+      <y>10</y>
+      <width>351</width>
+      <height>341</height>
      </rect>
     </property>
     <property name="text">
-     <string>Browser</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>130</y>
-      <width>113</width>
-      <height>32</height>
+      <x>370</x>
+      <y>140</y>
+      <width>160</width>
+      <height>202</height>
      </rect>
     </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QPushButton" name="D">
+       <property name="text">
+        <string>Decode (type2)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Decode1">
+       <property name="text">
+        <string>Decode (type1)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Encode2">
+       <property name="text">
+        <string>Encode (type2)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Encode1">
+       <property name="text">
+        <string>Encode (type1)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Show">
+       <property name="text">
+        <string>Show</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Browser">
+       <property name="text">
+        <string>Browser</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
+   <zorder>label</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>D</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>531</width>
      <height>22</height>
     </rect>
    </property>

@@ -39,26 +39,6 @@ image::image(QImage *img)
         colorV.push_back(colV);
     }
 }
-void image::get()
-{
-    vector <float> emptyFloat(8);
-    vector <int> emptyInt(8);
-    vector <vector<int> > b;
-    vector <vector<int> > blockY{{200,202,189,188,189,175,175,175},
-                                   {200,203,198,188,189,182,178,175},
-                                   {203,200,200,195,200,187,185,187},
-                                   {200,200,200,200,197,187,187,187},
-                                   {200,205,200,200,195,188,187,175},
-                                   {200,200,200,200,200,190,187,175},
-                                   {205,200,199,200,191,187,187,175},
-                                   {210,200,200,200,188,185,187,186}};
-    vector <vector<int> > EncodeblockY(8, emptyInt);
-    GetMatrix();
-    EncodeblockY = Quantization(DCT(blockY),1);
-//    for (int i = 0; i < 8; i++)
-//        for (int j = 0; j < 8; j++)
-//            qDebug() << EncodeblockY[i][j];
-}
 void image::Decode(int type)
 {
     vector <int> Empty_Int(block_X * 8);
@@ -163,11 +143,13 @@ void image::Encode(int type)
             qDebug() << Encode_Y[i][j];
 }
 
-void image::Generate()
+QImage image::Generate()
 {
-    QImage pic(block_X * 8, block_Y * 8,QImage::Format_RGB888);
+    QImage pic(block_X * 8, block_Y * 8,QImage::Format_RGB32);
+    qDebug() << "begin";
     pic.fill(QColor(Qt::white).rgb());
     for (int i = 0; i < block_Y * 8; i++)
         for (int j = 0; j < block_X * 8; j++)
-          pic.setPixel(i,j,qRgb(Decode_R[i][j], Decode_G[i][j], Decode_B[i][j]));
+          pic.setPixel(j,i,qRgb(Decode_R[i][j], Decode_G[i][j], Decode_B[i][j]));
+    return pic;
 }

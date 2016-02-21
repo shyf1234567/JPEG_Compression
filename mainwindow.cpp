@@ -1,13 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "global.h"
-#include "image.h"
 #include <QDebug>
+#include <QPixmap>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
+    Encode_type = 0;
     ui->setupUi(this);
 }
 
@@ -23,13 +22,17 @@ void MainWindow::on_Browser_clicked()
     f->show();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_Encode1_clicked()
+{
+    Encode_type = 1;
+    imgInfo->Encode(1);
+    box.setText("Encode successfully!");
+    box.exec();
+}
+
+void MainWindow::on_Show_clicked()
 {
     img = new QImage(filePath);
-    image *imgInfo = new image(img);
-    //imgInfo->get();
-    qDebug()<< qRed(img->pixel(0,0))<<qGreen(img->pixel(0,0))<<qBlue(img->pixel(0,0));
-   imgInfo->Encode(1);
-   //imgInfo->get();
-
+    QPixmap mypix(filePath);
+    ui->label->setPixmap(mypix);
 }

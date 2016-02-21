@@ -13,8 +13,7 @@ public:
     image(QImage *img);
     void Encode(int type);
     void Decode(int type);
-    void Generate();
-    void get();
+    QImage Generate();
 private:
     int width;
     int height;

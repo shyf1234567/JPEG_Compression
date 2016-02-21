@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <QImage>
+#include <QMessageBox>
 #include "filebrowser.h"
+#include "image.h"
+#include "global.h"
 namespace Ui {
 class MainWindow;
 }
@@ -21,10 +24,17 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_Encode1_clicked();
+
+    void on_Show_clicked();
+
 private:
     Ui::MainWindow *ui;
     FileBrowser *f;
     QImage *img;
+    int Encode_type;
+    image *imgInfo;
+    QMessageBox box;
 };
 
 #endif // MAINWINDOW_H

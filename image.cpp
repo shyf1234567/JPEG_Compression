@@ -1,17 +1,18 @@
 #include "image.h"
-
 image::image(QImage *img)
 {
     width = img->width();
     height = img->height();
+    block_X = width / 8;
+    block_Y = height / 8;
     for (int i = 0; i < height; i++)
     {
-        vector <float> colY;
-        vector <float> colU;
-        vector <float> colV;
+        vector <int> colY;
+        vector <int> colU;
+        vector <int> colV;
         for (int j = 0; j < width; j++)
         {
-            QRgb color = img->pixel(i,j);
+            QRgb color = img->pixel(j,i);
             int R = qRed(color);
             int G = qGreen(color);
             int B = qBlue(color);
@@ -38,32 +39,102 @@ image::image(QImage *img)
         colorV.push_back(colV);
     }
 }
-float image::get()
+void image::get()
 {
-    return colorY[0][0];
-}
-
-void image::Encode(int type)
-{
-    int block_X = width / 8;
-    int block_Y = height / 8;
-    vector <int> Empty_Int(width * 8);
-    vector <vector<int> > resultY(height * 8, Empty_Int);
-    vector <vector<int> > resultU(height * 8, Empty_Int);
-    vector <vector<int> > resultV(height * 8, Empty_Int);
-
     vector <float> emptyFloat(8);
     vector <int> emptyInt(8);
-    vector <vector<float> > blockY(8, emptyFloat);
-    vector <vector<float> > blockU(8, emptyFloat);
-    vector <vector<float> > blockV(8, emptyFloat);
+    vector <vector<int> > b;
+    vector <vector<int> > blockY{{200,202,189,188,189,175,175,175},
+                                   {200,203,198,188,189,182,178,175},
+                                   {203,200,200,195,200,187,185,187},
+                                   {200,200,200,200,197,187,187,187},
+                                   {200,205,200,200,195,188,187,175},
+                                   {200,200,200,200,200,190,187,175},
+                                   {205,200,199,200,191,187,187,175},
+                                   {210,200,200,200,188,185,187,186}};
+    vector <vector<int> > EncodeblockY(8, emptyInt);
+    GetMatrix();
+    EncodeblockY = Quantization(DCT(blockY),1);
+//    for (int i = 0; i < 8; i++)
+//        for (int j = 0; j < 8; j++)
+//            qDebug() << EncodeblockY[i][j];
+}
+void image::Decode(int type)
+{
+    vector <int> Empty_Int(block_X * 8);
+    vector <vector<int> > resultY(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultU(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultV(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultR(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultG(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultB(block_Y * 8, Empty_Int);
+
+    vector <int> emptyInt(8);
+    vector <vector<int> > blockY(8, emptyInt);
+    vector <vector<int> > blockU(8, emptyInt);
+    vector <vector<int> > blockV(8, emptyInt);
 
     vector <vector<int> > EncodeblockY(8, emptyInt);
     vector <vector<int> > EncodeblockU(8, emptyInt);
     vector <vector<int> > EncodeblockV(8, emptyInt);
-    for (int i = 0; i < height; i++)
+
+    GetMatrix();
+    for (int i = 0; i < block_Y; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < block_X; j++)
+        {
+            for (int x = 0; x < 8; x++)
+                for (int y = 0; y < 8; y++)
+                {
+                    blockY[x][y] = Encode_Y[i * 8 + x][j * 8 + y];
+                    blockU[x][y] = Encode_U[i * 8 + x][j * 8 + y];
+                    blockV[x][y] = Encode_V[i * 8 + x][j * 8 + y];
+                }
+            EncodeblockY = IDCT(IQuantizaiton(blockY, type));
+            EncodeblockU = IDCT(IQuantizaiton(blockU, type));
+            EncodeblockV = IDCT(IQuantizaiton(blockV, type));
+            for (int x = 0; x < 8; x++)
+                for (int y = 0; y < 8; y++)
+                {
+                    resultY[i * 8 + x][j * 8 + y] = EncodeblockY[x][y];
+                    resultU[i * 8 + x][j * 8 + y] = EncodeblockU[x][y];
+                    resultV[i * 8 + x][j * 8 + y] = EncodeblockV[x][y];
+                }
+        }
+    }
+    for (int i = 0; i < block_Y * 8; i++)
+        for (int j = 0; j < block_X * 8; j++)
+        {
+            resultR[i][j] = resultY + resultV * 1.13983;
+            resultG[i][j] = resultY - resultU * 0.39465 - resultV * 0.58060;
+            resultB[i][j] = resultY + resultU * 2.03211;
+        }
+    Decode_R = resultR;
+    Decode_G = resultG;
+    Decode_B = resultB;
+
+}
+
+void image::Encode(int type)
+{
+    vector <int> Empty_Int(block_X * 8);
+    vector <vector<int> > resultY(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultU(block_Y * 8, Empty_Int);
+    vector <vector<int> > resultV(block_Y * 8, Empty_Int);
+
+    vector <int> emptyInt(8);
+    vector <vector<int> > blockY(8, emptyInt);
+    vector <vector<int> > blockU(8, emptyInt);
+    vector <vector<int> > blockV(8, emptyInt);
+
+    vector <vector<int> > EncodeblockY(8, emptyInt);
+    vector <vector<int> > EncodeblockU(8, emptyInt);
+    vector <vector<int> > EncodeblockV(8, emptyInt);
+
+    GetMatrix();
+    for (int i = 0; i < block_Y; i++)
+    {
+        for (int j = 0; j < block_X; j++)
         {
             for (int x = 0; x < 8; x++)
                 for (int y = 0; y < 8; y++)
@@ -75,7 +146,6 @@ void image::Encode(int type)
             EncodeblockY = Quantization(DCT(blockY), type);
             EncodeblockU = Quantization(DCT(blockU), type);
             EncodeblockV = Quantization(DCT(blockV), type);
-
             for (int x = 0; x < 8; x++)
                 for (int y = 0; y < 8; y++)
                 {
@@ -88,5 +158,7 @@ void image::Encode(int type)
     Encode_Y = resultY;
     Encode_U = resultU;
     Encode_V = resultV;
-
+    for (int i = 0; i < block_Y * 8; i++)
+        for (int j = 0; j < block_X * 8; j++)
+            qDebug() << Encode_Y[i][j];
 }

@@ -2,6 +2,7 @@
 #define IMAGE_H
 #include <QImage>
 #include <QRgb>
+#include <QDebug>
 #include <vector>
 #include "global.h"
 using namespace std;
@@ -10,19 +11,27 @@ class image
 public:
     image(QImage *img);
     void Encode(int type);
-    float get();
+    void Decode(int type);
+    void Generate();
+    void get();
 private:
-    int blockX;
-    int blockY;
     int width;
     int height;
-    vector <vector<float> > colorY;//Y graph
-    vector <vector<float> > colorU;//U graph
-    vector <vector<float> > colorV;//V graph
+    int block_X;
+    int block_Y;
+    vector <vector<int> > colorY;//Y graph
+    vector <vector<int> > colorU;//U graph
+    vector <vector<int> > colorV;//V graph
 
-    vector <vector<int> > Encode_Y;
-    vector <vector<int> > Encode_U;
-    vector <vector<int> > Encode_V;
+    vector <vector<int> > Encode_Y;// encoding Y graph
+    vector <vector<int> > Encode_U;// encoding U graph
+    vector <vector<int> > Encode_V;// encoding V graph
+
+    vector <vector<int> > Decode_R;
+    vector <vector<int> > Decode_G;
+    vector <vector<int> > Decode_B;
+
+
 };
 
 #endif // IMAGE_H

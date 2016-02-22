@@ -5,39 +5,22 @@ image::image(QImage *img)
     height = img->height();
     block_X = width / 8;
     block_Y = height / 8;
+    vector <int> Empty_Int(width);
+    vector <vector<int> > resultY(height, Empty_Int);
+    vector <vector<int> > resultU(height, Empty_Int);
+    vector <vector<int> > resultV(height, Empty_Int);
+
     for (int i = 0; i < height; i++)
-    {
-        vector <int> colY;
-        vector <int> colU;
-        vector <int> colV;
         for (int j = 0; j < width; j++)
         {
             QRgb color = img->pixel(j,i);
-            int R = qRed(color);
-            int G = qGreen(color);
-            int B = qBlue(color);
-            //4:2:0 chroma subsampling
-            colY.push_back(int(0.299 * R + 0.587 * G + 0.114 * B));
-            if (j % 2)//only Y
-            {
-                colU.push_back(0);
-                colV.push_back(0);
-            }
-            else if (i % 2)//Y and U
-            {
-                colU.push_back(int(-0.14713 * R - 0.28886 * G + 0.436 * B));
-                colV.push_back(0);
-            }
-            else//Y and V
-            {
-                colU.push_back(0);
-                colV.push_back(int(0.615 * R - 0.51499 * G - 0.10001 * B));
-            }
-        }
-        colorY.push_back(colY);
-        colorU.push_back(colU);
-        colorV.push_back(colV);
-    }
+            resultY[i][j] = 0.299 * qRed(color) + 0.587 * qGreen(color) + 0.114 * qBlue(color);
+            resultU[i][j] = -0.14713 * qRed(color) - 0.28886 * qGreen(color) + 0.436 * qBlue(color);
+            resultV[i][j] = 0.615 * qRed(color) - 0.51499 * qGreen(color) - 0.10001 * qBlue(color);
+         }
+    colorY = resultY;
+    colorU = resultU;
+    colorV = resultV;
 }
 void image::Decode(int type)
 {
@@ -59,6 +42,7 @@ void image::Decode(int type)
     vector <vector<int> > EncodeblockV(8, emptyInt);
 
     GetMatrix();
+
     for (int i = 0; i < block_Y; i++)
     {
         for (int j = 0; j < block_X; j++)
@@ -146,6 +130,21 @@ QImage image::Generate()
     pic.fill(QColor(Qt::white).rgb());
     for (int i = 0; i < block_Y * 8; i++)
         for (int j = 0; j < block_X * 8; j++)
-          pic.setPixel(j,i,qRgb(Decode_R[i][j], Decode_G[i][j], Decode_B[i][j]));
+        {
+            if (Decode_R[i][j] < 0)
+                Decode_R[i][j] = 0;
+            if (Decode_R[i][j] > 255)
+                Decode_R[i][j] = 255;
+            if (Decode_G[i][j] < 0)
+                Decode_G[i][j] = 0;
+            if (Decode_G[i][j] > 255)
+                Decode_G[i][j] = 255;
+            if (Decode_B[i][j] < 0)
+                Decode_B[i][j] = 0;
+            if (Decode_B[i][j] > 255)
+                Decode_B[i][j] = 255;
+            //qDebug()<<Decode_R[i][j] <<Decode_G[i][j] <<Decode_B[i][j];
+            pic.setPixel(j,i,qRgb(Decode_R[i][j], Decode_G[i][j], Decode_B[i][j]));
+        }
     return pic;
 }

@@ -10,13 +10,23 @@ image::image(QImage *img)
     vector <vector<int> > resultU(height, Empty_Int);
     vector <vector<int> > resultV(height, Empty_Int);
 
-    for (int i = 0; i < height; i++)
-        for (int j = 0; j < width; j++)
+    for (int i = 0; i < height / 2; i++)
+        for (int j = 0; j < width / 2; j++)
         {
-            QRgb color = img->pixel(j,i);
-            resultY[i][j] = 0.299 * qRed(color) + 0.587 * qGreen(color) + 0.114 * qBlue(color);
-            resultU[i][j] = -0.14713 * qRed(color) - 0.28886 * qGreen(color) + 0.436 * qBlue(color);
-            resultV[i][j] = 0.615 * qRed(color) - 0.51499 * qGreen(color) - 0.10001 * qBlue(color);
+            //4:2:0 subsampling
+            QRgb color2 = img->pixel(j * 2, i * 2);
+            QRgb color3 = img->pixel(j * 2, i * 2 + 1);
+            int color_U = -0.14713 * qRed(color2) - 0.28886 * qGreen(color2) + 0.436 * qBlue(color2);
+            int color_V = 0.615 * qRed(color3) - 0.51499 * qGreen(color3) - 0.10001 * qBlue(color3);
+            for (int x = 0; x < 2; x++)
+                for (int y = 0; y < 2; y++)
+                {
+                    QRgb color = img->pixel(j * 2 + y,i * 2 + x);
+                    resultY[i * 2 + x][j * 2 + y] = 0.299 * qRed(color) + 0.587 * qGreen(color) + 0.114 * qBlue(color);
+                    resultU[i * 2 + x][j * 2 + y] = color_U;
+                    resultV[i * 2 + x][j * 2 + y] = color_V;
+                }
+
          }
     colorY = resultY;
     colorU = resultU;

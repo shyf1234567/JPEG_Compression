@@ -7,6 +7,7 @@
 #include "filebrowser.h"
 #include "image.h"
 #include "global.h"
+#include "display.h"
 namespace Ui {
 class MainWindow;
 }
@@ -30,13 +31,17 @@ private slots:
 
     void on_Decode_clicked();
 
+    void on_Next_clicked();
+
 private:
     Ui::MainWindow *ui;
     FileBrowser *f;
     QImage *img;
     int Encode_type;
+    int pic_num;
     image *imgInfo;
     QMessageBox box;
+    display *pic;
 };
 
 #endif // MAINWINDOW_H

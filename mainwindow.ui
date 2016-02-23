@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
-    <height>359</height>
+    <width>680</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>381</width>
-      <height>281</height>
+      <width>371</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="text">
@@ -30,10 +30,10 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>100</y>
+      <x>520</x>
+      <y>150</y>
       <width>160</width>
-      <height>198</height>
+      <height>202</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -66,6 +66,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="Next">
+       <property name="text">
+        <string>Next</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="Browser">
        <property name="text">
         <string>Browser</string>
@@ -74,13 +81,26 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="text">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>0</y>
+      <width>251</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>535</width>
+     <width>680</width>
      <height>22</height>
     </rect>
    </property>

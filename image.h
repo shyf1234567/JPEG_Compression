@@ -14,11 +14,17 @@ public:
     void Encode(int type);
     void Decode(int type);
     QImage Generate();
+    QImage GenerateOriginalYUV(int type);
+    QImage GenerateEncodeYUV(int type);
 private:
     int width;
     int height;
     int block_X;
     int block_Y;
+    vector <vector<int> > colorR;
+    vector <vector<int> > colorG;
+    vector <vector<int> > colorB;
+
     vector <vector<int> > colorY;//Y graph
     vector <vector<int> > colorU;//U graph
     vector <vector<int> > colorV;//V graph

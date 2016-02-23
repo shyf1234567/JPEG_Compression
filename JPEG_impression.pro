@@ -15,12 +15,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     filebrowser.cpp \
     global.cpp \
-    image.cpp
+    image.cpp \
+    display.cpp
 
 HEADERS  += mainwindow.h \
     filebrowser.h \
     global.h \
-    image.h
+    image.h \
+    display.h
 
 FORMS    += mainwindow.ui \
-    filebrowser.ui
+    filebrowser.ui \
+    display.ui
